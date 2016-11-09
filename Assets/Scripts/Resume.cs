@@ -6,7 +6,11 @@ public class Resume : MonoBehaviour {
 
    public void Submit() {
         Debug.Log("Button " + name + " pressed");
-        LevelManager.instance.ReturnFromOptions();
+        if (LevelManager.instance) {
+            LevelManager.instance.ReturnFromOptions();
+        } else {
+            Debug.LogWarning("Missing singleton: LevelManager");
+        }
     }
 
 }

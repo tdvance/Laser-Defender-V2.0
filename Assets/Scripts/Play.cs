@@ -6,7 +6,11 @@ public class Play : MonoBehaviour {
 
    public void Submit() {
         Debug.Log("Button " + name + " pressed");
-        LevelManager.instance.StartGame();
+        if (LevelManager.instance) {
+            LevelManager.instance.StartGame();
+        } else {
+            Debug.LogWarning("Missing singleton: LevelManager");
+        }
     }
 
 }

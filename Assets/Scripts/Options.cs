@@ -6,7 +6,11 @@ public class Options : MonoBehaviour {
 
     public void Submit() {
         Debug.Log("Button " + name + " pressed");
-        LevelManager.instance.OptionsMenu();
+        if (LevelManager.instance) {
+            LevelManager.instance.OptionsMenu();
+        } else {
+            Debug.LogWarning("Missing singleton: LevelManager");
+        }
     }
 
 }

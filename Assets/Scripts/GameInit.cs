@@ -5,15 +5,19 @@ public class GameInit : MonoBehaviour {
 
     public int GameMusicTrack = 1;
 
-	// Use this for initialization
-	void Start () {
-        FlexibleMusicManager.instance.SetCurrentTrack(GameMusicTrack);
-        FlexibleMusicManager.instance.Play();
+    // Use this for initialization
+    void Start() {
+        if (FlexibleMusicManager.instance) {
+            FlexibleMusicManager.instance.SetCurrentTrack(GameMusicTrack);
+            FlexibleMusicManager.instance.Play();
+        }else {
+            Debug.LogWarning("Missing singleton: FlexibleMusicManager");
+        }
 
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    // Update is called once per frame
+    void Update() {
+
+    }
 }
