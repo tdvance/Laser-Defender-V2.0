@@ -6,8 +6,7 @@ public class PlayerController : MonoBehaviour {
     public float speed = 20f;
     public float xMin = -8.4f;
     public float xMax = 8.4f;
-
-
+    
 
     // Use this for initialization
     void Start() {
@@ -19,12 +18,12 @@ public class PlayerController : MonoBehaviour {
     }
 
     // Update is called once per frame
-        void Update() {
-        float dx = GetInput();
+    void Update() {
+        float dx = GetMovementInput();
         MoveShipBy(dx);
     }
 
-    float GetInput() {
+    float GetMovementInput() {
         return CrossPlatformInputManager.GetAxis("Horizontal") * speed;
     }
 
