@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class Enemy : MonoBehaviour {
+    public float health = 2f;
 
     // Use this for initialization
     void Start() {
@@ -14,11 +15,16 @@ public class Enemy : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D collider) {
-        Debug.Log("Hit!");
-
         if (collider.tag == "FriendlyFire") {
-            Destroy(gameObject);
+            Hit(collider.gameObject.GetComponent<Bolt>().damage);
             Destroy(collider.gameObject);
+        }
+    }
+
+    void Hit(float damage) {
+        health -= damage;
+        if (health <= 0) {
+            Destroy(gameObject);
         }
     }
 }
