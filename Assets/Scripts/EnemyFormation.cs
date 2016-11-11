@@ -9,6 +9,8 @@ public class EnemyFormation : MonoBehaviour {
     public float xMax = 9f;
     public float speed = 5f;
 
+    public AudioClip levelStart;
+
     float dx = 1f;
 
     // Use this for initialization
@@ -23,10 +25,10 @@ public class EnemyFormation : MonoBehaviour {
 
     void MoveFormation() {
         transform.Translate(Vector3.right * dx * Time.deltaTime * speed);
-        if (transform.position.x - width/2f < xMin) {
-            transform.position = new Vector2(xMin + width/2f, transform.position.y);
+        if (transform.position.x - width / 2f < xMin) {
+            transform.position = new Vector2(xMin + width / 2f, transform.position.y);
             dx = 1f;
-        } else if (transform.position.x + width/2f > xMax) {
+        } else if (transform.position.x + width / 2f > xMax) {
             transform.position = new Vector2(xMax - width / 2f, transform.position.y);
             dx = -1f;
         }
@@ -37,6 +39,8 @@ public class EnemyFormation : MonoBehaviour {
     }
 
     void SpawnFormation() {
+        GetComponent<AudioSource>().clip = levelStart;
+        GetComponent<AudioSource>().Play();
         int which = 0;
         bool second = true;
         foreach (Transform child in transform) {

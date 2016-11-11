@@ -8,9 +8,20 @@ public class PlayerController : MonoBehaviour {
     public float xMax = 8.4f;
 
     public float health = 3f;
+
+    public AudioClip loseClip;
+    public AudioClip zapClip;
+
     public GameObject laserBoltPrefab;
     public float laserboltY = -3.86f;
     public float boltVelocity = 20f;
+
+    public GameObject smokePrefab;
+
+    public Sprite damage1;
+    public Sprite damage2;
+    public Sprite damage3;
+    public GameObject damageComponent;
 
 
     // Use this for initialization
@@ -62,10 +73,23 @@ public class PlayerController : MonoBehaviour {
     void Hit(float damage) {
         health -= damage;
         if (health <= 0) {
+            AudioSource.PlayClipAtPoint(loseClip, Vector3.zero, 1f);
+            GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity) as GameObject;
+            smoke.GetComponent<ParticleSystem>().startColor = new Color(0f, 0f, 1f, 0.1f);
             Destroy(gameObject);
-            //TODO Spawn smoke
         } else {
-            //TODO show damage
+            GetComponent<AudioSource>().clip = zapClip;
+            GetComponent<AudioSource>().Play();
+            if (health <= 1) {
+                damageComponent.GetComponent<SpriteRenderer>().sprite = damage3;
+                damageComponent.GetComponent<SpriteRenderer>().color = Color.white;
+            } else if (health <= 2) {
+                damageComponent.GetComponent<SpriteRenderer>().sprite = damage2;
+                damageComponent.GetComponent<SpriteRenderer>().color = Color.white;
+            } else if (health <= 3) {
+                damageComponent.GetComponent<SpriteRenderer>().sprite = damage1;
+                damageComponent.GetComponent<SpriteRenderer>().color = Color.white;
+            }
         }
     }
 

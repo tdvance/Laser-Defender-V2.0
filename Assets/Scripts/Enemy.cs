@@ -3,9 +3,16 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour {
     public float health = 2f;
+
+    public AudioClip loseClip;
+    public AudioClip zapClip;
+
     public GameObject enemyBoltPrefab;
     public float boltVelocity = 20f;
     public float firingRate = 0.5f;
+
+    public GameObject smokePrefab;
+
 
     // Use this for initialization
     void Start() {
@@ -29,9 +36,13 @@ public class Enemy : MonoBehaviour {
     void Hit(float damage) {
         health -= damage;
         if (health <= 0) {
+            AudioSource.PlayClipAtPoint(loseClip, Vector3.zero, 1f);
+            GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity) as GameObject;
+            smoke.GetComponent<ParticleSystem>().startColor = new Color(0f, 1f, 0f, 0.1f);
             Destroy(gameObject);
-            //TODO Spawn smoke
         } else {
+            GetComponent<AudioSource>().clip = zapClip;
+            GetComponent<AudioSource>().Play();
             //TODO show damage
         }
     }
