@@ -7,9 +7,11 @@ public class PlayerController : MonoBehaviour {
     public float xMin = -8.4f;
     public float xMax = 8.4f;
 
+    public float health = 3f;
     public GameObject laserBoltPrefab;
     public float laserboltY = -3.86f;
     public float boltVelocity = 20f;
+
 
     // Use this for initialization
     void Start() {
@@ -30,6 +32,14 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    void OnTriggerEnter2D(Collider2D collider) {
+        if (collider.tag == "EnemyFire") {
+            Hit(collider.gameObject.GetComponent<Bolt>().damage);
+            Destroy(collider.gameObject);//TODO spawn something?
+        }
+    }
+
+
     float GetMovementInput() {
         return CrossPlatformInputManager.GetAxis("Horizontal") * speed;
     }
@@ -44,8 +54,19 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Fire() {
+        //TODO alt-fire, combo fire
         GameObject bolt = Instantiate(laserBoltPrefab, new Vector3(transform.position.x, laserboltY), Quaternion.identity) as GameObject;
         bolt.GetComponent<Rigidbody2D>().velocity = Vector2.up * boltVelocity;
+    }
+
+    void Hit(float damage) {
+        health -= damage;
+        if (health <= 0) {
+            Destroy(gameObject);
+            //TODO Spawn smoke
+        } else {
+            //TODO show damage
+        }
     }
 
 }
