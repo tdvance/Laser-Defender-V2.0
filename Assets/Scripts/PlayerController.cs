@@ -6,7 +6,10 @@ public class PlayerController : MonoBehaviour {
     public float speed = 20f;
     public float xMin = -8.4f;
     public float xMax = 8.4f;
-    
+
+    public GameObject laserBoltPrefab;
+    public float laserboltY = -3.86f;
+    public float boltVelocity = 20f;
 
     // Use this for initialization
     void Start() {
@@ -21,6 +24,10 @@ public class PlayerController : MonoBehaviour {
     void Update() {
         float dx = GetMovementInput();
         MoveShipBy(dx);
+        if (CrossPlatformInputManager.GetButtonDown("Fire1")
+            || CrossPlatformInputManager.GetButtonDown("Jump")) {
+            Fire();
+        }
     }
 
     float GetMovementInput() {
@@ -35,5 +42,11 @@ public class PlayerController : MonoBehaviour {
             transform.position = new Vector2(xMax, transform.position.y);
         }
     }
+
+    void Fire() {
+        GameObject bolt = Instantiate(laserBoltPrefab, new Vector3(transform.position.x, laserboltY), Quaternion.identity) as GameObject;
+        bolt.GetComponent<Rigidbody2D>().velocity = Vector2.up * boltVelocity;
+    }
+
 }
 
