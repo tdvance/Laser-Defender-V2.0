@@ -21,6 +21,17 @@ public class EnemyFormation : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         MoveFormation();
+        CheckEnemies();
+    }
+
+    void CheckEnemies() {
+        int count = 0;
+        foreach (Transform position in transform) {
+            count += position.transform.childCount;
+        }
+        if (count == 0) {
+            SpawnFormation();
+        }
     }
 
     void MoveFormation() {
