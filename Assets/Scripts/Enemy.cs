@@ -39,6 +39,7 @@ public class Enemy : MonoBehaviour {
             AudioSource.PlayClipAtPoint(loseClip, Vector3.zero, 1f);
             GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity) as GameObject;
             smoke.GetComponent<ParticleSystem>().startColor = new Color(0f, 1f, 0f, 0.1f);
+            Destroy(smoke, 5f);
             Destroy(gameObject);
         } else {
             GetComponent<AudioSource>().clip = zapClip;

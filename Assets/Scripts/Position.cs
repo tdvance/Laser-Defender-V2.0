@@ -2,16 +2,9 @@
 using System.Collections;
 
 public class Position : MonoBehaviour {
+    public int whichEnemy;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public bool spawned = false;
 
     void OnDrawGizmos() {
         Gizmos.DrawWireSphere(transform.position, 1f);

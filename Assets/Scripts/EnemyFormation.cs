@@ -8,10 +8,13 @@ public class EnemyFormation : MonoBehaviour {
     public float xMin = -9f;
     public float xMax = 9f;
     public float speed = 5f;
+    public float spawnDelay = 1f;
 
     public AudioClip levelStart;
 
     float dx = 1f;
+    float spawnTime = 0f;
+    bool spawning = false;
 
     // Use this for initialization
     void Start() {
@@ -21,17 +24,35 @@ public class EnemyFormation : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         MoveFormation();
-        CheckEnemies();
+        spawning = CheckEnemies();
+        if (spawning) {
+            spawning = SpawnWithDelay();
+        }
     }
 
-    void CheckEnemies() {
+    bool SpawnWithDelay() {
+
+        spawnTime += Time.deltaTime;
+        if (spawnTime > spawnDelay) {
+            spawnTime = 0;
+            if (!SpawnEnemy()) {
+                return false;
+            }
+        }
+             
+        return true;
+    }
+
+    bool CheckEnemies() {
         int count = 0;
         foreach (Transform position in transform) {
             count += position.transform.childCount;
         }
-        if (count == 0) {
+        if (count == 0 && !spawning) {
             SpawnFormation();
+            return true;
         }
+        return spawning;
     }
 
     void MoveFormation() {
@@ -52,20 +73,28 @@ public class EnemyFormation : MonoBehaviour {
     void SpawnFormation() {
         GetComponent<AudioSource>().clip = levelStart;
         GetComponent<AudioSource>().Play();
-        int which = 0;
-        bool second = true;
         foreach (Transform child in transform) {
-            SpawnEnemy(child, which);
-            if (second) {
-                second = false;
-                which++;
-            } else {
-                second = true;
-            }
+            child.GetComponent<Position>().spawned = false;
         }
+        spawnTime = 0f;
     }
 
-    GameObject SpawnEnemy(Transform parent, int which) {
+    Transform NextFreePosition() {
+        foreach (Transform position in transform) {
+            if (!position.GetComponent<Position>().spawned) {
+                position.GetComponent<Position>().spawned = true;
+                return position;
+            }
+        }
+        return null;
+    }
+
+    GameObject SpawnEnemy() {
+        Transform parent = NextFreePosition();
+        if (!parent) {
+            return null;
+        }
+        int which = parent.GetComponent<Position>().whichEnemy;
         GameObject enemy = Instantiate(enemyPrefabs[which], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
         enemy.transform.SetParent(parent, false);
 
