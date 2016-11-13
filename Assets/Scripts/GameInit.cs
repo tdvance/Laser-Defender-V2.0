@@ -3,12 +3,12 @@ using System.Collections;
 
 public class GameInit : MonoBehaviour {
 
-    public int GameMusicTrack = 1;
+    public int gameMusicTrack = 1;
 
     // Use this for initialization
     void Start() {
         if (FlexibleMusicManager.instance) {
-            FlexibleMusicManager.instance.SetCurrentTrack(GameMusicTrack);
+            FlexibleMusicManager.instance.SetCurrentTrack(gameMusicTrack);
             FlexibleMusicManager.instance.Play();
         }else {
             Debug.LogWarning("Missing singleton: FlexibleMusicManager");

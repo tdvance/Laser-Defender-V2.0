@@ -51,6 +51,7 @@ public class EnemyFormation : MonoBehaviour {
         if (count == 0 && !spawning) {
             ScoreDisplay.instance.score += 50;
             ScoreDisplay.instance.Highlight();
+            ScoreManager.instance.SubmitScore(ScoreDisplay.instance.score);
             SpawnFormation();
             return true;
         }

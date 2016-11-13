@@ -31,6 +31,10 @@ public class LevelManager : MonoBehaviour {
         LoadLevel(gameScene, startGameDelay);
     }
 
+    public void StartMainCycle(float delay) {
+        Invoke("StartMainCycle", delay);
+    }
+
     public void StartMainCycle() {
         CancelInvoke();
         cycleIndex = -1;
