@@ -85,13 +85,14 @@ public class PlayerController : MonoBehaviour {
         health -= damage;
 
         if (health <= 0) {
-            AudioSource.PlayClipAtPoint(loseClip, Vector3.zero, 1f);
+            AudioSource.PlayClipAtPoint(loseClip, Vector3.zero, OptionsMenu.sfxVolume);
             GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity) as GameObject;
             smoke.GetComponent<ParticleSystem>().startColor = new Color(0f, 0f, 1f, 0.1f);
             ScoreManager.instance.SubmitScore(ScoreDisplay.instance.score);
             LevelManager.instance.StartMainCycle(5f);
             Destroy(gameObject);
         } else {
+            GetComponent<AudioSource>().volume = OptionsMenu.sfxVolume;
             GetComponent<AudioSource>().clip = zapClip;
             GetComponent<AudioSource>().Play();
             if (health <= 1) {

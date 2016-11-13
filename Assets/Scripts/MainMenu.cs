@@ -15,12 +15,14 @@ public class MainMenu : MonoBehaviour {
             scoreDisplay.GetComponent<ScoreDisplay>().score = ScoreManager.instance.score;
             scoreDisplay.GetComponent<ScoreDisplay>().prefixText = "High Score: ";
             scoreDisplay.GetComponent<ScoreDisplay>().score = ScoreManager.instance.highScore;
-        }else {
+        } else {
             Debug.LogWarning("Missing singleton: ScoreManager");
         }
         if (FlexibleMusicManager.instance) {
-            FlexibleMusicManager.instance.SetCurrentTrack(menuMusicTrack);
-            FlexibleMusicManager.instance.Play();
+            if (FlexibleMusicManager.instance.CurrentTrackNumber() != menuMusicTrack) {
+                FlexibleMusicManager.instance.SetCurrentTrack(menuMusicTrack);
+                FlexibleMusicManager.instance.Play();
+            }
         } else {
             Debug.LogWarning("Missing singleton: FlexibleMusicManager");
         }

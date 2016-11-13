@@ -6,6 +6,7 @@ public class Bolt : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        GetComponent<AudioSource>().volume = OptionsMenu.sfxVolume;
 	
 	}
 	
