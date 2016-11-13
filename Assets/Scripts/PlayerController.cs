@@ -83,6 +83,7 @@ public class PlayerController : MonoBehaviour {
 
     void Hit(float damage) {
         health -= damage;
+        
         if (health <= 0) {
             AudioSource.PlayClipAtPoint(loseClip, Vector3.zero, 1f);
             GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity) as GameObject;

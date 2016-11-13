@@ -49,6 +49,8 @@ public class EnemyFormation : MonoBehaviour {
             count += position.transform.childCount;
         }
         if (count == 0 && !spawning) {
+            ScoreDisplay.instance.score += 50;
+            ScoreDisplay.instance.Highlight();
             SpawnFormation();
             return true;
         }

@@ -13,7 +13,7 @@ public class GameInit : MonoBehaviour {
         }else {
             Debug.LogWarning("Missing singleton: FlexibleMusicManager");
         }
-
+        ScoreDisplay.instance.score = 0;
     }
 
     // Update is called once per frame

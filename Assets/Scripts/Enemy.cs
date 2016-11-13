@@ -35,7 +35,11 @@ public class Enemy : MonoBehaviour {
 
     void Hit(float damage) {
         health -= damage;
+
+        ScoreDisplay.instance.score += (int)(10 * damage);
+
         if (health <= 0) {
+            ScoreDisplay.instance.score += 30;
             AudioSource.PlayClipAtPoint(loseClip, Vector3.zero, 1f);
             GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity) as GameObject;
             smoke.GetComponent<ParticleSystem>().startColor = new Color(0f, 1f, 0f, 0.1f);
