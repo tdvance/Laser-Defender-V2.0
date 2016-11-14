@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class GameInit : MonoBehaviour {
+    [Tooltip("For debugging, to spawn _Init scene singletons if starting from this scene")]
     public GameObject initScriptsPrefab;
 
     public int gameMusicTrack = 1;

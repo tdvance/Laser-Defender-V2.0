@@ -68,6 +68,7 @@ public class EnemyFormation : MonoBehaviour {
     }
 
     void MoveFormation() {
+        //TODO use dynamic size, not static size, of formation as ships die
         transform.Translate(Vector3.right * dx * Time.deltaTime * speed);
         if (transform.position.x - width / 2f < xMin) {
             transform.position = new Vector2(xMin + width / 2f, transform.position.y);

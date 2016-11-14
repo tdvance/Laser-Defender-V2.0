@@ -34,18 +34,22 @@ public class Enemy : MonoBehaviour {
         ScoreDisplay.instance.score += (int)(10 * damage);
 
         if (health <= 0) {
-            ScoreDisplay.instance.score += 30;
-            AudioSource.PlayClipAtPoint(loseClip, Vector3.zero, GameOptions.instance.sfxVolume);
-            GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity) as GameObject;
-            smoke.GetComponent<ParticleSystem>().startColor = new Color(0f, 1f, 0f, 0.1f);
-            Destroy(smoke, 5f);
-            Destroy(gameObject);
+            Die();
         } else {
             GetComponent<AudioSource>().volume = GameOptions.instance.sfxVolume * .25f;
             GetComponent<AudioSource>().clip = zapClip;
             GetComponent<AudioSource>().Play();
             //TODO show damage
         }
+    }
+
+    void Die() {
+        ScoreDisplay.instance.score += 30;
+        AudioSource.PlayClipAtPoint(loseClip, Vector3.zero, GameOptions.instance.sfxVolume);
+        GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity) as GameObject;
+        smoke.GetComponent<ParticleSystem>().startColor = new Color(0f, 1f, 0f, 0.1f);
+        Destroy(smoke, 5f);
+        Destroy(gameObject);
     }
 
     void Fire() {

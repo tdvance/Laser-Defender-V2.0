@@ -86,19 +86,23 @@ public class PlayerController : MonoBehaviour {
         bolt.GetComponent<Rigidbody2D>().velocity = Vector2.up * boltVelocity2;
     }
 
+    void Die() {
+        AudioSource.PlayClipAtPoint(loseClip, Vector3.zero, GameOptions.instance.sfxVolume);
+        GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity) as GameObject;
+        smoke.GetComponent<ParticleSystem>().startColor = new Color(0f, 0f, 1f, 0.1f);
+        ScoreManager.instance.SubmitScore(ScoreDisplay.instance.score);
+        ScoreDisplay.instance.SetWatchMode();//in case missile hits enemy after this is destroyed
+        FlexibleMusicManager.instance.Next();
+        LevelManager.instance.StartMainCycle(5f);
+        //TODO three plays per game
+        Destroy(gameObject);
+    }
+
     void Hit(float damage) {
         health -= damage;
 
         if (health <= 0) {
-            AudioSource.PlayClipAtPoint(loseClip, Vector3.zero, GameOptions.instance.sfxVolume);
-            GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity) as GameObject;
-            smoke.GetComponent<ParticleSystem>().startColor = new Color(0f, 0f, 1f, 0.1f);
-            ScoreManager.instance.SubmitScore(ScoreDisplay.instance.score);
-            ScoreDisplay.instance.SetWatchMode();//in case missile hits enemy after this is destroyed
-            FlexibleMusicManager.instance.Next();
-            LevelManager.instance.StartMainCycle(5f);
-            //TODO three plays per game
-            Destroy(gameObject);
+            Die();
         } else {
             GetComponent<AudioSource>().volume = GameOptions.instance.sfxVolume;
             GetComponent<AudioSource>().clip = zapClip;
