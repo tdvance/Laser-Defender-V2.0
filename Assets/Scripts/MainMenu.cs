@@ -13,8 +13,8 @@ public class MainMenu : MonoBehaviour {
         if (ScoreManager.instance) {
             scoreDisplay.GetComponent<ScoreDisplay>().prefixText = "Score: ";
             scoreDisplay.GetComponent<ScoreDisplay>().score = ScoreManager.instance.score;
-            scoreDisplay.GetComponent<ScoreDisplay>().prefixText = "High Score: ";
-            scoreDisplay.GetComponent<ScoreDisplay>().score = ScoreManager.instance.highScore;
+            highScoreDisplay.GetComponent<ScoreDisplay>().prefixText = "High Score: ";
+            highScoreDisplay.GetComponent<ScoreDisplay>().score = ScoreManager.instance.highScore;
         } else {
             Debug.LogWarning("Missing singleton: ScoreManager");
         }

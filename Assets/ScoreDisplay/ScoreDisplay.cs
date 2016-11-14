@@ -15,9 +15,11 @@ public class ScoreDisplay : MonoBehaviour {
     private Color textColor = Color.green;
     private float highlightAmount = 1f;
 
+    private bool watchMode = false;
 
     // Use this for initialization
     void Start() {
+        watchMode = false;
         scoreText = GetComponentInChildren<Text>();
         scoreText.text = prefixText + score.ToString();
         textColor = scoreText.color;
@@ -29,14 +31,23 @@ public class ScoreDisplay : MonoBehaviour {
         scoreText.text = prefixText + score.ToString();
         if (highlight) {
             if (highlightAmount > 0) {
-                scoreText.color = textColor*(1f-highlightAmount) + highlightColor*highlightAmount;
+                scoreText.color = textColor * (1f - highlightAmount) + highlightColor * highlightAmount;
                 highlightAmount -= Time.deltaTime / highlightTime;
-            }else {
+            } else {
                 highlight = false;
                 highlightAmount = 1f;
                 scoreText.color = textColor;
             }
         }
+        if (watchMode) {
+            if(score > ScoreManager.instance.score) {
+                ScoreManager.instance.SubmitScore(score);
+            }
+        }
+    }
+
+    public void SetWatchMode() {
+        watchMode = true;
     }
 
     public void Highlight() {

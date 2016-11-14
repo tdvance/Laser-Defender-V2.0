@@ -41,12 +41,14 @@ public class PlayerController : MonoBehaviour {
     void Update() {
         float dx = GetMovementInput();
         MoveShipBy(dx);
-        if (CrossPlatformInputManager.GetButtonDown("Fire1")
-            || CrossPlatformInputManager.GetButtonDown("Jump")) {
-            Fire();
-        } else if (CrossPlatformInputManager.GetButtonDown("Fire2") && Time.time - lastFire2 > fire2Delay) {
-            lastFire2 = Time.time;
-            Fire2();
+        if (!LevelManager.inOptionsSceneDuringGame) {
+            if (CrossPlatformInputManager.GetButtonDown("Fire1")
+    || CrossPlatformInputManager.GetButtonDown("Jump")) {
+                Fire();
+            } else if (CrossPlatformInputManager.GetButtonDown("Fire2") && Time.time - lastFire2 > fire2Delay) {
+                lastFire2 = Time.time;
+                Fire2();
+            }
         }
     }
 
@@ -59,6 +61,9 @@ public class PlayerController : MonoBehaviour {
 
 
     float GetMovementInput() {
+        if (LevelManager.inOptionsSceneDuringGame) {
+            return 0;
+        }
         return CrossPlatformInputManager.GetAxis("Horizontal") * speed;
     }
 
@@ -89,6 +94,7 @@ public class PlayerController : MonoBehaviour {
             GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity) as GameObject;
             smoke.GetComponent<ParticleSystem>().startColor = new Color(0f, 0f, 1f, 0.1f);
             ScoreManager.instance.SubmitScore(ScoreDisplay.instance.score);
+            ScoreDisplay.instance.SetWatchMode();//in case missile hits enemy after this is destroyed
             LevelManager.instance.StartMainCycle(5f);
             Destroy(gameObject);
         } else {

@@ -13,4 +13,13 @@ public class Options : MonoBehaviour {
         }
     }
 
+    public void SubmitFromGame() {
+        Debug.Log("Button " + name + " pressed while in game");
+        if (LevelManager.instance) {
+            LevelManager.instance.OptionsMenuInGame();
+        } else {
+            Debug.LogWarning("Missing singleton: LevelManager");
+        }
+    }
+
 }

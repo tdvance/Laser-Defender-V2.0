@@ -28,7 +28,6 @@ public class ScoreManager : MonoBehaviour {
             _highScore = score;
             PlayerPrefs.SetInt(highScoreKey, score);
         }
-
     }
 
     void Start() {

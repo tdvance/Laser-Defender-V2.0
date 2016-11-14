@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour {
 
+    public static bool inOptionsSceneDuringGame = false;
+
     public string[] mainCycle;
     public string gameScene;
     public string optionsScene;
@@ -42,6 +44,13 @@ public class LevelManager : MonoBehaviour {
         onMainCycle = true;
     }
 
+    public void StartMainCycleImmediately() {
+        CancelInvoke();
+        cycleIndex = -1;
+        InvokeRepeating("NextInCycle", 0f, cycleDelay);
+        onMainCycle = true;
+    }
+
     public void StopMainCycle() {
         CancelInvoke();
         onMainCycle = false;
@@ -68,18 +77,34 @@ public class LevelManager : MonoBehaviour {
     bool saveOptionsMainCycle;
     int saveOptionsCycleIndex;
     public void OptionsMenu() {
+        inOptionsSceneDuringGame = false;
         saveOptionsSceneReturn = currentLevelName;
         saveOptionsMainCycle = onMainCycle;
         saveOptionsCycleIndex = cycleIndex;
-        LoadLevel(optionsScene);//TODO make concurrent scene
+        LoadLevel(optionsScene);
+    }
+
+    public static float saveTimeScale;
+    public void OptionsMenuInGame() {
+        inOptionsSceneDuringGame = true;
+        saveTimeScale = Time.timeScale;
+        Time.timeScale = 0f;
+        SceneManager.LoadScene("OptionsInGame", LoadSceneMode.Additive);
+        Destroy(GameObject.Find("OptionsCamera"));
     }
 
 
     public void ReturnFromOptions() {
+        if (inOptionsSceneDuringGame) {
+            inOptionsSceneDuringGame = false;
+            SceneManager.UnloadScene("OptionsInGame");
+            Time.timeScale = saveTimeScale;
+            return;
+        }
         if (saveOptionsMainCycle) {
             cycleIndex = saveOptionsCycleIndex;
             ResumeMainCycle();
-        }else {
+        } else {
             LoadLevel(saveOptionsSceneReturn);//TODO make concurrent scene
         }
 

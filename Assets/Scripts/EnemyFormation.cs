@@ -18,6 +18,7 @@ public class EnemyFormation : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        spawning = true;
         SpawnFormation();
     }
 
