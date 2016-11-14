@@ -24,7 +24,11 @@ public class Enemy : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D collider) {
         if (collider.tag == "FriendlyFire") {
             Hit(collider.gameObject.GetComponent<Bolt>().damage);
-            Destroy(collider.gameObject);//TODO spawn something?
+            Destroy(collider.gameObject);
+            GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity) as GameObject;
+            smoke.transform.localScale *= 0.5f;
+            smoke.GetComponent<ParticleSystem>().startColor = new Color(0.25f, 1f, 0f, 0.04f);
+            Destroy(smoke, 5f);
         }
     }
 
@@ -38,8 +42,7 @@ public class Enemy : MonoBehaviour {
         } else {
             GetComponent<AudioSource>().volume = GameOptions.instance.sfxVolume * .25f;
             GetComponent<AudioSource>().clip = zapClip;
-            GetComponent<AudioSource>().Play();
-            //TODO show damage
+            GetComponent<AudioSource>().Play();                    
         }
     }
 

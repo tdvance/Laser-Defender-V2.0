@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D collider) {
         if (collider.tag == "EnemyFire") {
             Hit(collider.gameObject.GetComponent<Bolt>().damage);
-            Destroy(collider.gameObject);//TODO spawn something?
+            Destroy(collider.gameObject);
         }
     }
 
@@ -105,13 +105,14 @@ public class PlayerController : MonoBehaviour {
             GetComponent<AudioSource>().Play(); ScoreDisplay.instance.SetWatchMode();//in case missile hits enemy after this is destroyed
             FlexibleMusicManager.instance.Next();
             LevelManager.instance.StartMainCycle(5f);
-            //TODO three plays per game
             Destroy(gameObject);
         } else {
             GetComponent<AudioSource>().volume = GameOptions.instance.sfxVolume;
             GetComponent<AudioSource>().clip = levelStart;
             GetComponent<AudioSource>().Play(); health = saveHealth;
             transform.position = new Vector2(xMax, transform.position.y);
+            damageComponent.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+
         }
     }
 
@@ -122,7 +123,7 @@ public class PlayerController : MonoBehaviour {
         if (health <= 0) {
 
             Die();
-        } else {          
+        } else {
             if (health <= 1) {
                 damageComponent.GetComponent<SpriteRenderer>().sprite = damage3;
                 damageComponent.GetComponent<SpriteRenderer>().color = Color.white;
