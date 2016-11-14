@@ -16,6 +16,12 @@ public class EnemyFormation : MonoBehaviour {
     float spawnTime = 0f;
     bool spawning = false;
 
+    static int currentNumShips = 0;
+
+    public static int GetNumShips() {
+        return currentNumShips;
+    }
+
     // Use this for initialization
     void Start() {
         spawning = true;
@@ -27,6 +33,7 @@ public class EnemyFormation : MonoBehaviour {
         MoveFormation();
         spawning = CheckEnemies();
         if (spawning) {
+            currentNumShips = 9;
             spawning = SpawnWithDelay();
         }
     }
@@ -49,6 +56,7 @@ public class EnemyFormation : MonoBehaviour {
         foreach (Transform position in transform) {
             count += position.transform.childCount;
         }
+        currentNumShips = count;
         if (count == 0 && !spawning) {
             ScoreDisplay.instance.score += 50;
             ScoreDisplay.instance.Highlight();

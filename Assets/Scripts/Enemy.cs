@@ -9,19 +9,14 @@ public class Enemy : MonoBehaviour {
 
     public GameObject enemyBoltPrefab;
     public float boltVelocity = 20f;
-    public float firingRate = 0.5f;
+    public float firingRate = 5f;
 
     public GameObject smokePrefab;
 
-
-    // Use this for initialization
-    void Start() {
-
-    }
-
     // Update is called once per frame
     void Update() {
-        if (Random.value < firingRate * Time.deltaTime) {//TODO increase with skill level or fewer ships
+        //keep firing rate approx. constant no matter how many ships
+        if (Random.value * EnemyFormation.GetNumShips() < firingRate * Time.deltaTime) {
             Fire();
         }
     }
