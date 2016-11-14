@@ -54,7 +54,6 @@ public class Enemy : MonoBehaviour {
     }
 
     void Fire() {
-        //TODO alt-fire, combo fire
         GameObject bolt = Instantiate(enemyBoltPrefab, new Vector3(transform.position.x, transform.position.y - 0.5f), Quaternion.identity) as GameObject;
         bolt.GetComponent<Rigidbody2D>().velocity = Vector2.down * boltVelocity;
     }

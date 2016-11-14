@@ -95,7 +95,9 @@ public class PlayerController : MonoBehaviour {
             smoke.GetComponent<ParticleSystem>().startColor = new Color(0f, 0f, 1f, 0.1f);
             ScoreManager.instance.SubmitScore(ScoreDisplay.instance.score);
             ScoreDisplay.instance.SetWatchMode();//in case missile hits enemy after this is destroyed
+            FlexibleMusicManager.instance.Next();
             LevelManager.instance.StartMainCycle(5f);
+            //TODO three plays per game
             Destroy(gameObject);
         } else {
             GetComponent<AudioSource>().volume = OptionsMenu.sfxVolume;

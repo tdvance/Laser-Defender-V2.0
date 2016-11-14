@@ -105,7 +105,7 @@ public class LevelManager : MonoBehaviour {
             cycleIndex = saveOptionsCycleIndex;
             ResumeMainCycle();
         } else {
-            LoadLevel(saveOptionsSceneReturn);//TODO make concurrent scene
+            LoadLevel(saveOptionsSceneReturn);
         }
 
     }
