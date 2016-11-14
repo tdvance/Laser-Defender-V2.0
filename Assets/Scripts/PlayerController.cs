@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
 
     public AudioClip loseClip;
     public AudioClip zapClip;
+    public AudioClip levelStart;
 
     public GameObject laserBoltPrefab;
     public GameObject laserBoltPrefab2;
@@ -28,8 +29,15 @@ public class PlayerController : MonoBehaviour {
 
     float lastFire2 = 0;
 
+    float saveHealth;
+
+    LivesDisplay livesDisplay;
+
     // Use this for initialization
     void Start() {
+        saveHealth = health;
+        livesDisplay = FindObjectOfType<LivesDisplay>();
+
         float multiplier = (float)Screen.width / (float)Screen.height * 9f / 16f;
         xMax *= multiplier;
         xMin *= multiplier;
@@ -87,26 +95,34 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Die() {
-        AudioSource.PlayClipAtPoint(loseClip, Vector3.zero, GameOptions.instance.sfxVolume);
         GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity) as GameObject;
         smoke.GetComponent<ParticleSystem>().startColor = new Color(0f, 0f, 1f, 0.1f);
         ScoreManager.instance.SubmitScore(ScoreDisplay.instance.score);
-        ScoreDisplay.instance.SetWatchMode();//in case missile hits enemy after this is destroyed
-        FlexibleMusicManager.instance.Next();
-        LevelManager.instance.StartMainCycle(5f);
-        //TODO three plays per game
-        Destroy(gameObject);
+
+        if (!livesDisplay.RemoveLife()) {
+            GetComponent<AudioSource>().volume = GameOptions.instance.sfxVolume;
+            GetComponent<AudioSource>().clip = loseClip;
+            GetComponent<AudioSource>().Play(); ScoreDisplay.instance.SetWatchMode();//in case missile hits enemy after this is destroyed
+            FlexibleMusicManager.instance.Next();
+            LevelManager.instance.StartMainCycle(5f);
+            //TODO three plays per game
+            Destroy(gameObject);
+        } else {
+            GetComponent<AudioSource>().volume = GameOptions.instance.sfxVolume;
+            GetComponent<AudioSource>().clip = levelStart;
+            GetComponent<AudioSource>().Play(); health = saveHealth;
+            transform.position = new Vector2(xMax, transform.position.y);
+        }
     }
+
 
     void Hit(float damage) {
         health -= damage;
 
         if (health <= 0) {
+
             Die();
-        } else {
-            GetComponent<AudioSource>().volume = GameOptions.instance.sfxVolume;
-            GetComponent<AudioSource>().clip = zapClip;
-            GetComponent<AudioSource>().Play();
+        } else {          
             if (health <= 1) {
                 damageComponent.GetComponent<SpriteRenderer>().sprite = damage3;
                 damageComponent.GetComponent<SpriteRenderer>().color = Color.white;
@@ -117,6 +133,7 @@ public class PlayerController : MonoBehaviour {
                 damageComponent.GetComponent<SpriteRenderer>().sprite = damage1;
                 damageComponent.GetComponent<SpriteRenderer>().color = Color.white;
             }
+
         }
     }
 

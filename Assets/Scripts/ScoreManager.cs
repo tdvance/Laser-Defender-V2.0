@@ -21,7 +21,6 @@ public class ScoreManager : MonoBehaviour {
         }
     }
 
-
     public void SubmitScore(int score) {
         this._score = score;
         if (score > _highScore) {

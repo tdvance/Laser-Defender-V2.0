@@ -16,6 +16,8 @@ public class GameInit : MonoBehaviour {
             Debug.LogWarning("Missing singleton: FlexibleMusicManager, attempting to make one");
             Instantiate(initScriptsPrefab);
         }
+
+
         ScoreDisplay.instance.score = 0;
     }
 
