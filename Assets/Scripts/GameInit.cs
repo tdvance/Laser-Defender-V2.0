@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class GameInit : MonoBehaviour {
+    public GameObject initScriptsPrefab;
 
     public int gameMusicTrack = 1;
 
@@ -10,8 +11,9 @@ public class GameInit : MonoBehaviour {
         if (FlexibleMusicManager.instance) {
             FlexibleMusicManager.instance.SetCurrentTrack(gameMusicTrack);
             FlexibleMusicManager.instance.Play();
-        }else {
-            Debug.LogWarning("Missing singleton: FlexibleMusicManager");
+        } else {
+            Debug.LogWarning("Missing singleton: FlexibleMusicManager, attempting to make one");
+            FlexibleMusicManager mm = (Instantiate(initScriptsPrefab) as GameObject).GetComponent<FlexibleMusicManager>();
         }
         ScoreDisplay.instance.score = 0;
     }

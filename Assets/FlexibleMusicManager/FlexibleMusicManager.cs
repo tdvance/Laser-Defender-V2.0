@@ -84,10 +84,10 @@ public class FlexibleMusicManager : MonoBehaviour {
     /// </summary>
     /// <param name="path">optional subfolder of resources folder</param>
     /// <returns>Number of unique clips added to playlist</returns>
-    public int LoadClipsFromResources(string path="") {   
+    public int LoadClipsFromResources(string path = "") {
         AudioClip[] clips = Resources.LoadAll<AudioClip>(path);
         int count = 0;
-        foreach(AudioClip clip in clips) {
+        foreach (AudioClip clip in clips) {
             if (!playList.Contains(clip)) {
                 count++;
                 playList.Add(clip);

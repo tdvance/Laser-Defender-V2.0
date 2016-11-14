@@ -128,8 +128,7 @@ public class LevelManager : MonoBehaviour {
         SceneManager.LoadScene(currentLevelName);
     }
 
-
-
+    
     #region Singleton
     private static LevelManager _instance;
 
