@@ -23,6 +23,6 @@ Newly updated features:
 
 + ability to pause game, quit game or change options in game 
 
-+ (work in progress) 3 plays for a "quarter"
++ 3 plays for a "quarter"
 
-+ more ship types, improved animations, two firing modes
++ more ship types, improved animations, two firing modes, more effects
