@@ -13,7 +13,7 @@ public class GameInit : MonoBehaviour {
             FlexibleMusicManager.instance.Play();
         } else {
             Debug.LogWarning("Missing singleton: FlexibleMusicManager, attempting to make one");
-            FlexibleMusicManager mm = (Instantiate(initScriptsPrefab) as GameObject).GetComponent<FlexibleMusicManager>();
+            Instantiate(initScriptsPrefab);
         }
         ScoreDisplay.instance.score = 0;
     }

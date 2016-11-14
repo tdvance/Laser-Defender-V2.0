@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour {
         health -= damage;
 
         if (health <= 0) {
-            AudioSource.PlayClipAtPoint(loseClip, Vector3.zero, OptionsMenu.sfxVolume);
+            AudioSource.PlayClipAtPoint(loseClip, Vector3.zero, GameOptions.instance.sfxVolume);
             GameObject smoke = Instantiate(smokePrefab, transform.position, Quaternion.identity) as GameObject;
             smoke.GetComponent<ParticleSystem>().startColor = new Color(0f, 0f, 1f, 0.1f);
             ScoreManager.instance.SubmitScore(ScoreDisplay.instance.score);
@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour {
             //TODO three plays per game
             Destroy(gameObject);
         } else {
-            GetComponent<AudioSource>().volume = OptionsMenu.sfxVolume;
+            GetComponent<AudioSource>().volume = GameOptions.instance.sfxVolume;
             GetComponent<AudioSource>().clip = zapClip;
             GetComponent<AudioSource>().Play();
             if (health <= 1) {

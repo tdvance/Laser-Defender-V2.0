@@ -3,42 +3,27 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class OptionsMenu : MonoBehaviour {
-    public static float sfxVolume = 0.5f;
-    public static float musicVolume = 0.25f;
 
     public GameObject musicVolumeSlider;
     public GameObject sfxVolumeSlider;
 
-    string musicKey = "Music Volume";
-    string sfxKey = "SFX Volume";
-
-
     // Use this for initialization
     void Start() {
-        if (PlayerPrefs.HasKey(musicKey)) {
-            musicVolume = PlayerPrefs.GetFloat(musicKey);
-        }
         if (musicVolumeSlider) {
-            musicVolumeSlider.GetComponent<Slider>().value = musicVolume;
-        }
-        FlexibleMusicManager.instance.volume = musicVolume;
-        if (PlayerPrefs.HasKey(sfxKey)) {
-            sfxVolume = PlayerPrefs.GetFloat(sfxKey);
+            musicVolumeSlider.GetComponent<Slider>().value = GameOptions.instance.musicVolume;
         }
         if (sfxVolumeSlider) {
-            sfxVolumeSlider.GetComponent<Slider>().value = sfxVolume;
+            sfxVolumeSlider.GetComponent<Slider>().value = GameOptions.instance.sfxVolume;
         }
     }
 
     public void UpdateMusic() {
-        musicVolume = musicVolumeSlider.GetComponent<Slider>().value;
-        PlayerPrefs.SetFloat(musicKey, musicVolume);
-        FlexibleMusicManager.instance.volume = musicVolume;
+        GameOptions.instance.SetMusicVolume(musicVolumeSlider.GetComponent<Slider>().value);
+
     }
 
     public void UpdateSFX() {
-        sfxVolume = sfxVolumeSlider.GetComponent<Slider>().value;
-        PlayerPrefs.SetFloat(sfxKey, sfxVolume);
+        GameOptions.instance.SetSFXVolume(sfxVolumeSlider.GetComponent<Slider>().value);
     }
 
 }

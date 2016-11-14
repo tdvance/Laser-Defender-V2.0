@@ -76,7 +76,7 @@ public class EnemyFormation : MonoBehaviour {
 
     void SpawnFormation() {
         GetComponent<AudioSource>().clip = levelStart;
-        GetComponent<AudioSource>().volume = OptionsMenu.sfxVolume;
+        GetComponent<AudioSource>().volume = GameOptions.instance.sfxVolume;
         GetComponent<AudioSource>().Play();
         foreach (Transform child in transform) {
             child.GetComponent<Position>().spawned = false;

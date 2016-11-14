@@ -7,7 +7,7 @@ public class Bolt : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        GetComponent<AudioSource>().volume = OptionsMenu.sfxVolume;
+        GetComponent<AudioSource>().volume = GameOptions.instance.sfxVolume;
 
         if (tag != "EnemyFire" && tag != "FriendlyFire") {
             Debug.LogWarning("Bolt should either be tagged 'EnemyFire' or 'FriendlyFire'");

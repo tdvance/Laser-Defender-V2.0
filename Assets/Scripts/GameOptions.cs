@@ -2,17 +2,37 @@
 using System.Collections;
 
 public class GameOptions : MonoBehaviour {
+    public float sfxVolume = 0.5f;
+    public float musicVolume = 0.25f;
 
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    string musicKey = "Music Volume";
+    string sfxKey = "SFX Volume";
+
+    public void SetMusicVolume(float value) {
+        musicVolume = value;
+        PlayerPrefs.SetFloat(musicKey, value);
+        FlexibleMusicManager.instance.volume = value;
+    }
+
+    public void SetSFXVolume(float value) {
+        sfxVolume = value;
+        PlayerPrefs.SetFloat(sfxKey, value);
+    }
+
+
+    // Use this for initialization
+    void Start() {
+        if (PlayerPrefs.HasKey(musicKey)) {
+            musicVolume = PlayerPrefs.GetFloat(musicKey);
+        }
+        FlexibleMusicManager.instance.volume = musicVolume;
+        if (PlayerPrefs.HasKey(sfxKey)) {
+            sfxVolume = PlayerPrefs.GetFloat(sfxKey);
+        }
+    }
+
+
 
     #region Singleton
     private static GameOptions _instance;
@@ -21,7 +41,7 @@ public class GameOptions : MonoBehaviour {
         get {
             if (_instance == null) {//in case not awake yet
                 _instance = FindObjectOfType<GameOptions>();
-            }           
+            }
             return _instance;
         }
     }
